@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3Dスクリプトゲーム</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="480" height="320"></canvas>
+
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+        const miniheight=320;
+        let center = {x:120,y:120};
+        let point = {x:240,y:120};
+        let r1 = 5;
+        let flag=1;
+        let flag2=0;
+        let flag3=0;
+        let first=0;
+        let maxheight=320
+        let num=10;
+        let height=1;
+        let cnt=0;
+        let random ="rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")";
+        
+        draw = (x1, y1, r1) =>{
+                
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.beginPath();
+                ctx.arc(x1, y1, r1, 0, Math.PI*2, false);
+                ctx.fillStyle = "#FF0000";
+                ctx.fill();
+                ctx.closePath();
+                
+            }
+        drawrect=(height, random)=>{
+            y=320-height;
+            ctx.beginPath();
+            ctx.rect(0, y, 480, height);
+            ctx.fillStyle = random;
+            ctx.fill();
+            ctx.closePath();
+            if(y<=0){
+                alert('Hello');
+                clearInterval(timer);
+            }
+            
+        }
+        
+        timer=setInterval(()=>{
+            draw(point.x, point.y, r1);
+            drawrect(height, random);
+            cnt+=1;
+            
+            switch (flag) {
+            case flag=1:
+                r1+=0.2;
+                break;
+        
+            case flag=0:
+                r1-=0.2;
+                break;
+            }
+
+            point.y *= 1.2;
+            
+           
+            if(point.y>= 320){
+                while (point.y<=maxheight){
+                    point.y*= -1.2
+                    
+                }
+                if(maxheight<=0){
+                    point.y=1;
+                    
+                }
+                switch (flag3) {
+                    case 0:
+                    maxheight-=num;
+                        break;
+                
+                    case 1:
+                    maxheight+=num*1.2;
+                        break;
+                }
+                
+            }
+            if(r1>50){
+                flag=0;
+                flag3=1;
+            
+            }else if(r1<=0){
+                flag=1;
+                r1=0;
+                flag3=0;
+            }
+            if(cnt%100===0){
+                height+=5;
+                random="rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")";
+            }
+            console.log(flag3);
+
+        },1);
+
+
+
+    </script>
+
+</body>
+</html>
